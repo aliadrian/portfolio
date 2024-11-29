@@ -4,10 +4,7 @@ import CustomImage from "@/app/blog/components/Image";
 import Link from "@/app/components/Link";
 import Map from "@/app/components/bento/Map";
 import Alert from "./mdx/Alert";
-import Weather from "./mdx/Weather";
-import WeatherList from "./mdx/WeatherList";
 import LinkPreview from "./mdx/LinkPreview";
-import SeriesCollapsible from "./mdx/SeriesCollapsible";
 
 interface CustomLinkProps
   extends React.DetailedHTMLProps<
@@ -30,7 +27,7 @@ const CustomLink: React.FC<CustomLinkProps> = (props) => {
     <a
       target="_blank"
       rel="noopener noreferrer"
-      className="font-normal underline underline-offset-4 text-link"
+      className="font-normal text-link underline underline-offset-4"
       {...props}
     />
   );
@@ -41,11 +38,8 @@ const components = {
   a: CustomLink,
   Link: CustomLink,
   Alert: Alert,
-  Weather: Weather,
-  WeatherList: WeatherList,
   LinkPreview: LinkPreview,
   Map: Map,
-  SeriesCollapsible: SeriesCollapsible,
 };
 
 export default function MdxWrapper({ code }: { code: string }) {

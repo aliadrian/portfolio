@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import Avatar from "@/app/components/Avatar";
 import Link from "@/app/components/Link";
 import Mdx from "@/app/blog/components/MdxWrapper";
-// import NewsletterSignupForm from "@/app/blog/components/NewsletterSignupForm";
 import Me from "@/public/avatar.png";
 
 export default function Project({ params }: { params: any }) {
@@ -62,7 +61,6 @@ export default function Project({ params }: { params: any }) {
             .
           </p>
         </div>
-        {/* <NewsletterSignupForm contained={false} /> */}
       </div>
     </div>
   );
