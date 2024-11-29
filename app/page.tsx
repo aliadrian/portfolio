@@ -27,7 +27,7 @@ export default function Home() {
             className="max-w-lg animate-in text-secondary"
             style={{ "--index": 1 } as React.CSSProperties}
           >
-            I'm a Student at Dalarna University in Sweden, passionate about
+            I&#39;m a Student at Dalarna University in Sweden, passionate about
             software development, problem-solving, and digital services. Eager
             to explore well-designed systems and innovative technologies to
             shape the future of IT.
