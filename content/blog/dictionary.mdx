@@ -1,0 +1,156 @@
+---
+title: "How to create a Dictionary Web App with React.js"
+date: "2024-03-02"
+summary: "A quick walkthrough overview of the project setup and the technology stack we used."
+tags: ["Web Development"]
+---
+
+## Why start this project?
+
+I started this side project because I wanted a simple, modern dictionary app that was easy to use. A lot of the existing tools out there felt outdated or just not very intuitive. So, I thought, why not build something better? This app is all about making it easy to look up words without any fuss, while also having a clean and straightforward design.
+
+> Learning new words can be fun when you have a tool that just works.
+
+It's nothing too fancy, just a small project that aims to make learning new words a little more enjoyable.
+
+It's still a work in progress, but it's been fun to see people use it and get value out of it. I'm still updating and improving it bit by bit.
+
+## Data Sources
+
+The data for this project primarily comes from the Free [Dictionary API](https://dictionaryapi.dev/), which provides comprehensive information on word meanings, pronunciation, and usage. Additional assets, such as icons and fonts, were carefully selected from reliable sources to enhance the user experience and align with modern design standards.
+
+Accuracy and reliability of data were key priorities for this project. By selecting trusted data sources and incorporating them thoughtfully, the aim was to provide a robust and informative user experience, where users could explore words in a dynamic, yet precise way. Providing incorrect or incomplete information could lead to user frustration, which is why each element, from definitions to audio pronunciations, was implemented with care.
+
+<Image
+  width={600}
+  height={400}
+  src="https://images.unsplash.com/photo-1675352161779-1bbe2d7eefe9?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  caption="person reading Covid news"
+  contained
+/>
+
+## Technology stack
+
+This project was built using modern web technologies, starting with React for a dynamic and responsive user interface. To manage state and theming, React Context API was utilized, enabling seamless font and theme switching across components. Tailwind CSS was used to implement the design system, allowing for a clean and consistent look and feel throughout the application.
+
+The application integrates with the Free Dictionary API to retrieve word data. Axios was used for API requests, ensuring efficient data fetching and error handling. To manage routing, React Router was employed, providing a smooth navigation experience. Lastly, for deployment, Vercel was used, making the project easily accessible to users worldwide. This combination of technologies ensured a performant, scalable, and user-friendly dictionary web application.
+
+<Image width={600} height={400} src="/blog/dictionary/technology-stack.png" />
+
+## Front-end Design
+
+The general approach of the application is to provide an interactive interface for exploring word definitions, pronunciation, and related information. The user can search for any word, and the results are presented in a well-organized format that includes phonetics, meanings, and usage examples. The application also offers audio pronunciation to enhance the learning experience.
+
+The design was created to be both aesthetically pleasing and highly functional, ensuring the interface adapts seamlessly across different devices and screen sizes. Tailwind CSS allowed for easy creation of responsive layouts, making sure the content was accessible and visually appealing on both desktop and mobile devices. The light and dark theme toggle, along with font-switching options, further improve the usability and accessibility of the app, providing a personalized experience for each user.
+
+<Image
+  contained
+  width={600}
+  height={400}
+  caption="Visualizations responsive to different devices"
+  src="/blog/dictionary/phones.png"
+/>
+
+## How It Works
+
+The following is an overview of how different components interact within the application to create a user-friendly dictionary experience.
+
+<Alert type="warning">
+  Note that the example code is incomplete for concision.
+</Alert>
+
+### 1. Data Fetching and State Management
+
+The data is retrieved from the Free Dictionary API using Axios. This ensures that users receive comprehensive and up-to-date word definitions, phonetics, and usage examples.
+
+```js showLineNumbers {3, 8-9}
+import axios from "axios";
+
+const baseUrl = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+
+const getWordData = async (word) => {
+  const url = `${baseUrl}${word}`;
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+    throw error;
+  }
+};
+```
+
+This function retrieves word data from the API and handles any errors during the request.
+
+### 2. Handling User Input
+
+The search feature allows users to type in a word, and it triggers a data fetch. Error handling is implemented to notify users if the word is not found.
+
+```js showLineNumbers {3-4}
+const handleSearch = async (userInput) => {
+  try {
+    const data = await getWordData(userInput);
+    setDictionaryData(data);
+    setError(null);
+  } catch (error) {
+    setDictionaryData(null);
+    setError("Couldn't find the word. Please try again.");
+  }
+};
+```
+
+This function is invoked when the user searches for a word, ensuring smooth and responsive interactions.
+
+### 3. Audio Pronunciation
+
+Audio pronunciation is provided to help users learn correct pronunciation. The Content component includes a play button that allows users to hear the pronunciation of the word.
+
+```js
+const playPronunciation = (audioUrl) => {
+  let audio = new Audio(audioUrl);
+  audio.play();
+};
+```
+
+This function is triggered when users press the play button, giving them an easy way to hear the pronunciation.
+
+### 5. Theme and Font Switching
+
+The application includes theme and font-switching capabilities, making it more accessible and customizable for different user preferences. The useFont and useTheme hooks are used to manage these settings.
+
+```js showLineNumbers {4, 8-9}
+import { useFont } from "./FontContext";
+import { useState, useEffect } from "react";
+
+const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+const { fontFamily, toggleFont } = useFont();
+
+useEffect(() => {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+}, [theme]);
+```
+
+### 6. Responsive Design
+
+The UI was designed to adapt to different screen sizes, making the application easy to use on both desktop and mobile devices. Tailwind CSS utilities were used extensively to create a responsive layout.
+
+```js
+<div className="mx-auto max-w-2xl pb-10 dark:text-white">
+  <Filter handleSearch={handleSearch} />
+  <Content
+    audioUrl={audioUrl}
+    dictionaryData={dictionaryData}
+    error={error}
+    sourceUrls={sourceUrls}
+  />
+</div>
+```
+
+The container ensures that the main components are centered and properly spaced for an optimal viewing experience across various devices.
+
+## Wrapping things up
+
+In the end, we have a fully functional dictionary web app that is responsive across different devices and offers an intuitive, enjoyable user experience. The seamless integration of various modern web technologies makes the application a robust tool for learning new words.
+
+So, did I achieve my initial goal? I believe I did. It's been immensely gratifying to see users engage with the app and benefit from it. If you're a developer and wish to contribute to this ongoing project, feel free to check out the [GitHub repository ](https://github.com/aliadrian/dictionary-web-app) for more details.
