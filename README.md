@@ -6,7 +6,7 @@ This website is a clone of Brian Ruiz's personal portfolio website. All credit g
 
 The original website was designed to be simplistic and clean while including features like MDX blog posts with view counts, a dark mode toggle, an about page, and more. I am grateful for their work and the permission to use it.
 
-You can check out the original project here: https://www.b-r.io/
+You can check out his profile and projects here: [https://www.b-r.io/](https://github.com/BrianRuizy)
 
 ## Tech Stack
 
