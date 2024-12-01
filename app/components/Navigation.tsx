@@ -12,6 +12,7 @@ import ThemeSwitcher from "@/app/components/ThemeSwitcher";
 
 const links = [
   { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
   { label: "Blog", href: "/blog" },
 ];
 
