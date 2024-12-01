@@ -90,10 +90,10 @@ export default function Projects() {
             className="max-w-md animate-in text-tertiary"
             style={{ "--index": 2 } as React.CSSProperties}
           >
-            Explore the diverse range of projects I've worked on, showcasing my
-            skills in software development, design, and problem-solving. Each
-            project reflects my dedication to creating innovative and functional
-            solutions.
+            Explore the diverse range of projects I&apos;ve worked on,
+            showcasing my skills in software development, design, and
+            problem-solving. Each project reflects my dedication to creating
+            innovative and functional solutions.
           </p>
         </div>
 
