@@ -1,5 +1,5 @@
 "use client";
-import { Fragment } from "react";
+import { useState, Fragment } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -18,11 +18,16 @@ const links = [
 
 export default function Navigation() {
   const pathname = `/${usePathname().split("/")[1]}`; // active paths on dynamic sub-pages
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="md:mt-6">
       <nav className="mx-auto flex max-w-[700px] items-center justify-between gap-3 px-4 py-3 md:px-6">
-        <Link href="/" className="shrink-0 text-primary">
+        <Link
+          href="/"
+          className="shrink-0 text-primary"
+          onClick={() => setIsOpen(false)}
+        >
           <svg
             version="1.0"
             xmlns="http://www.w3.org/2000/svg"
@@ -66,11 +71,15 @@ export default function Navigation() {
         </div>
 
         <Popover className="relative md:hidden">
-          <Popover.Button className="flex h-8 w-8 items-center justify-center rounded-lg text-secondary">
+          <Popover.Button
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-secondary"
+          >
             <Bars3Icon className="h-5 w-5 cursor-pointer text-secondary transition-colors hover:text-primary" />
           </Popover.Button>
           <Transition
             as={Fragment}
+            show={isOpen}
             enter="transition ease-out duration-200"
             enterFrom="opacity-0 translate-y-1"
             enterTo="opacity-100 translate-y-0"
@@ -90,6 +99,7 @@ export default function Navigation() {
                         ? "bg-secondary font-medium"
                         : "font-normal",
                     )}
+                    onClick={() => setIsOpen(false)}
                   >
                     {link.label}
                   </Link>
