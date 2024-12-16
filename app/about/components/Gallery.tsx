@@ -7,9 +7,9 @@ import clsx from "clsx";
 import localFont from "next/font/local";
 
 import vasteras from "public/gallery/västerås.jpeg";
-import dalarnaUniversityOutside from "public/gallery/dalarna-university.png";
-import dalarnaUniversityInside from "public/gallery/dalarna-university.jpeg";
-import vasterasCity from "public/gallery/vasteras_city.jpg";
+import midsummer from "public/gallery/midsummer.jpeg";
+import dalarnaUniversity from "public/gallery/dalarna-university.jpeg";
+import logarangen from "public/gallery/lögarängen.jpeg";
 
 import Halo from "@/app/components/Halo";
 
@@ -141,46 +141,46 @@ export default function Gallery() {
     <>
       <section className="relative flex h-[268px] gap-4">
         <Photo
-          src={dalarnaUniversityInside}
+          src={dalarnaUniversity}
           meta="2024-07-12"
-          alt="Dalarna University Inside"
+          alt="Dalarna University"
           width={220}
           height={260}
           rotate={-6}
-          left={-80}
+          left={-20}
           index={1}
         />
         <Photo
-          src={vasteras}
-          meta="2022-09-10"
-          alt={"Hometown Västerås"}
+          src={logarangen}
+          meta="2022-03-19"
+          alt="Lögarängen"
           width={220}
           height={260}
-          rotate={7.6}
-          left={725}
+          rotate={6.3}
+          left={160}
           index={2}
           flipDirection="left"
         />
         <Photo
-          src={vasterasCity}
-          meta="2022-03-19"
-          alt="Västerås City"
-          width={324}
-          height={239}
-          rotate={6.3}
-          left={100}
+          src={midsummer}
+          meta="2023-06-24"
+          alt="Swedish Midsummer"
+          width={220}
+          height={260}
+          rotate={-5.4}
+          left={325}
           index={3}
-          flipDirection="left"
         />
         <Photo
-          src={dalarnaUniversityOutside}
-          meta="2023-06-24"
-          alt="Dalarna University Outside"
-          width={354}
-          height={239}
-          rotate={-5.4}
-          left={400}
+          src={vasteras}
+          meta="2022-09-10"
+          alt={"Home city Västerås"}
+          width={220}
+          height={260}
+          rotate={7.6}
+          left={530}
           index={4}
+          flipDirection="left"
         />
       </section>
     </>
