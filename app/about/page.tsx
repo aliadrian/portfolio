@@ -10,10 +10,9 @@ import Gallery from "@/app/about/components/Gallery";
 import duLogo from "public/work/du.png";
 import awLogo from "public/work/aw.png";
 
-import dalarnaUniversityInside from "public/gallery/dalarna-university.jpeg";
-import vasterasCity from "public/gallery/vasteras_city.jpg";
+import dalarnaUniversity from "public/gallery/dalarna-university.jpeg";
+import midsommar from "public/gallery/midsummer.jpeg";
 import vasteras from "public/gallery/västerås.jpeg";
-import dalarnaUniversityOutside from "public/gallery/dalarna-university.png";
 
 export const metadata: Metadata = {
   title: "About | Adrian Nasrat",
@@ -41,9 +40,9 @@ export default function About() {
           style={{ "--index": 1 } as React.CSSProperties}
         >
           <Image
-            src={dalarnaUniversityOutside}
-            alt={"Dalarna University"}
-            width={250}
+            src={vasteras}
+            alt={"västerås"}
+            width={324}
             height={139}
             className="pointer-events-none relative inset-0 h-60 -rotate-6 rounded-xl bg-gray-400 object-cover shadow-md"
             priority
@@ -55,9 +54,9 @@ export default function About() {
           style={{ "--index": 2 } as React.CSSProperties}
         >
           <Image
-            src={vasteras}
-            alt={"Hometown Västerås"}
-            width={200}
+            src={midsommar}
+            alt={"midsummer"}
+            width={220}
             height={260}
             className="pointer-events-none absolute inset-0 -top-48 left-[45%] w-48 rotate-6 rounded-xl bg-gray-400 object-cover shadow-md md:left-[60%] md:w-56"
             priority
