@@ -4,10 +4,10 @@ import React from "react";
 const CustomCard: React.FC = () => {
   return (
     <div
-      className="max-w-sm w-full mx-auto p-8 rounded-xl group"
+      className="max-w-sm md:w-[34rem] w-full mx-auto p-8 rounded-xl group grid place-content-center"
     >
        <div
-    className="h-[15rem] md:h-[20rem] rounded-xl z-40 bg-neutral-300 dark:bg-[rgba(40,40,40,0.70)] [mask-image:radial-gradient(50%_50%_at_50%_50%,white_0%,transparent_100%)] w-[100vh] place-self-center"
+    className="h-[15rem] md:h-[20rem] rounded-xl z-40 bg-neutral-300 dark:bg-[rgba(40,40,40,0.70)] [mask-image:radial-gradient(50%_50%_at_50%_50%,white_0%,transparent_100%)] md:w-[75vh]"
   >
     <div
       className="p-8 overflow-hidden h-full relative flex items-center justify-center"
