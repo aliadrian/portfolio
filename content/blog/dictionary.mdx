@@ -113,7 +113,7 @@ This function is invoked when the user searches for a word, ensuring smooth and 
 
 Audio pronunciation is provided to help users learn correct pronunciation. The Content component includes a play button that allows users to hear the pronunciation of the word.
 
-```js
+```js showLineNumbers 
 const playPronunciation = (audioUrl) => {
   let audio = new Audio(audioUrl);
   audio.play();
@@ -143,7 +143,7 @@ useEffect(() => {
 
 The UI was designed to adapt to different screen sizes, making the application easy to use on both desktop and mobile devices. Tailwind CSS utilities were used extensively to create a responsive layout.
 
-```js
+```js showLineNumbers {1}
 <div className="mx-auto max-w-2xl pb-10 dark:text-white">
   <Filter handleSearch={handleSearch} />
   <Content
