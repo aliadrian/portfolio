@@ -5,6 +5,7 @@ import Link from "@/app/components/Link";
 import Map from "@/app/components/bento/Map";
 import Alert from "./mdx/Alert";
 import LinkPreview from "./mdx/LinkPreview";
+import CustomCard from "./CustomCard";
 
 interface CustomLinkProps
   extends React.DetailedHTMLProps<
@@ -40,6 +41,7 @@ const components = {
   Alert: Alert,
   LinkPreview: LinkPreview,
   Map: Map,
+  CustomCard: CustomCard
 };
 
 export default function MdxWrapper({ code }: { code: string }) {
