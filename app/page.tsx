@@ -41,7 +41,7 @@ export default function Home() {
           style={{ "--index": 2 } as React.CSSProperties}
         >
           <Link
-            href="https://discord.gg/9cz4APEjtY"
+            href="https://discord.gg/7zqpmyRx"
             className="flex w-fit items-center rounded-full bg-secondary px-3 py-1 no-underline hover:bg-tertiary"
           >
             Discord

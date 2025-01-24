@@ -22,14 +22,14 @@ interface ItemProps {
   title: string;
   description: string;
   image: string | StaticImageData;
-  link: string;
+  link: string | null;
 }
 
 const Item = ({ title, description, image, link }: ItemProps) => (
   <li className="flex items-center gap-4 transition-opacity">
     <Link
       className="relative aspect-square h-[4rem] w-[4rem] min-w-[4rem] overflow-hidden rounded-xl border border-secondary bg-tertiary shadow-sm"
-      href={link}
+      href={link || "#"}
     >
       <Image
         src={image}
@@ -87,7 +87,7 @@ export default function Projects() {
             </p>
           </div>
           <p
-            className="max-w-md animate-in text-tertiary"
+            className="max-w-md animate-in"
             style={{ "--index": 2 } as React.CSSProperties}
           >
             Explore the diverse range of projects I&apos;ve worked on,
@@ -150,6 +150,6 @@ const projects = [
     category: "App",
     image: "https://static.cdnlogo.com/logos/c/27/c.svg",
     description: "A digital registry supporting CRUD operations made in C#.",
-    link: "",
+    link: null,
   },
 ];
