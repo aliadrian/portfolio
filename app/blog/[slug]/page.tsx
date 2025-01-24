@@ -114,7 +114,7 @@ export default async function Blog({ params }: { params: any }) {
           <h2>Contact</h2>
           <p className="max-w-md text-pretty text-secondary">
             Questions or need more details? Ping me on{" "}
-            <Link href="/discord" underline>
+            <Link href="https://discord.gg/7zqpmyRx" underline>
               Discord,
             </Link>{" "}
             or any of my other social media{" "}
