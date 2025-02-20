@@ -87,7 +87,7 @@ export default function Projects() {
             </p>
           </div>
           <p
-            className="max-w-md animate-in"
+            className="max-w-md animate-in text-secondary"
             style={{ "--index": 2 } as React.CSSProperties}
           >
             Explore the diverse range of projects I&apos;ve worked on,
