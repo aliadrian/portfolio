@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import Countries from "public/project/countries.jpg";
 import Dictionary from "public/project/dictionary.webp";
 import FactoryMethodDesignPattern from "public/project/factory-method-design-pattern-.webp";
+import Spotify from "public/project/spotify.png";
 
 export const metadata: Metadata = {
   title: "Projects | Adrian Nasrat",
@@ -151,5 +152,13 @@ const projects = [
     image: "https://static.cdnlogo.com/logos/c/27/c.svg",
     description: "A digital registry supporting CRUD operations made in C#.",
     link: null,
+  },
+  {
+    name: "Spotify",
+    category: "Website",
+    image: Spotify,
+    description:
+      "A responsive Spotify web app featuring real-time music playback.",
+    link: "projects/spotify",
   },
 ];
