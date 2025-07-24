@@ -125,9 +125,9 @@ export default function About() {
         <Section heading="Work" headingAlignment="left">
           <div className="flex w-full flex-col gap-8">
             <p>
-              I specialize in C#, React, web development, UI/UX, and product
-              design. But I am always learning new things. Here are some of the
-              places I have worked and currently study.
+              I specialize in C#, React, web development and UI/UX. But I am
+              always learning new things. Here are some of the places I have
+              worked and currently study.
             </p>
             <Workplaces items={workplaces} />
           </div>
