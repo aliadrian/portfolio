@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://a-n.io"),
   title: "Adrian Nasrat",
   description:
-    "Student at Dalarna University in Sweden, passionate about software development, problem-solving, and digital services. Eager to explore well-designed systems and innovative technologies to shape the future of IT.",
+    "Student at Dalarna University in Sweden, passionate about software development, problem-solving, and digital services. Eager to explore well-designed systems.",
   openGraph: {
     title: "Adrian Nasrat",
     url: "https://a-n.io/",
