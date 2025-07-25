@@ -1,23 +1,32 @@
 ---
 title: "Spotify Card Widget"
 date: "June 2024"
-summary: "A full-featured music web app using Spotify Web API and React, with responsive design and interactive tilt effects."
+summary: "A fun experiment with the Spotify Web API to build a shareable music widget, inspired by Discord’s ‘listening to’ status."
 url: "https://spotify-card-widget.vercel.app/"
 tags: ["Web Development", "Vercel", "Vite", "Tailwind.css", "React.js"]
 ---
 
-<ResponsiveIframe />
+<div className="grid justify-center">
+  <iframe
+    src="https://spotify-card-widget.vercel.app/"
+    className="aspect-video h-[800px] w-[24rem] rounded-xl border-none"
+  />
+</div>
 
-This project is a custom-built **Spotify web application**, developed using **React** and powered by the **Spotify Web API**. The goal was to create a smooth and responsive user experience for discovering and playing music while experimenting with advanced UI techniques.
+This project was a personal experiment, I wanted to see if I could create a lightweight, interactive **Spotify widget** that reflects the music a user is currently listening to.
 
-Built during June 2024, the app includes:
+The inspiration came from **Discord's "listening to Spotify" status**, which I always found really cool. So I decided to try building something similar, just for fun.
 
-- **Real-time Spotify integration** – Search for songs, view track metadata, and control playback.
-- **State management and authentication** – Token handling with Spotify’s OAuth flow, managing refresh logic, and securely accessing user data.
-- **3D tilt effects** – Interactive tilt animations on album cards using `framer-motion`, designed to work on both desktop and mobile devices.
-- **Mobile-first responsive design** – Carefully debugged and optimized for mobile tilt responsiveness and touch interaction.
+The result is a minimal yet dynamic music card interface that connects to your Spotify account, displays current playback, and uses **React** and **Framer Motion** for clean, responsive animations.
 
-This was also a deep dive into managing cross-device behaviors, like tilt effects on different screen sizes, and lifting state in React to ensure clean, centralized logic between components like the player, search bar, and track list.
+Built in June 2024, the app features:
+
+- **Spotify Web API integration** – Authenticates with your account and displays current track info in real time.
+- **Framer Motion animations** – Smooth 3D tilt effects on hover, inspired by interactive UI elements.
+- **Fully responsive design** – Works across devices, but optimized for larger screens due to layout constraints.
+- **Modern stack** – Built with Vite, Tailwind CSS, and deployed to Vercel.
+
+This was mostly a curiosity project, a way for me to explore OAuth, creative UI, and the Spotify API all in one place.
 
 ## Technologies used
 
