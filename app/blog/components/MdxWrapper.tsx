@@ -6,7 +6,6 @@ import Map from "@/app/components/bento/Map";
 import Alert from "./mdx/Alert";
 import LinkPreview from "./mdx/LinkPreview";
 import CustomCard from "./CustomCard";
-import ResponsiveIframe from "@/app/blog/components/ResponsiveIframe";
 
 interface CustomLinkProps
   extends React.DetailedHTMLProps<
@@ -43,7 +42,6 @@ const components = {
   LinkPreview: LinkPreview,
   Map: Map,
   CustomCard: CustomCard,
-  ResponsiveIframe: ResponsiveIframe,
 };
 
 export default function MdxWrapper({ code }: { code: string }) {
