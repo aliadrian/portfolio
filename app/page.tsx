@@ -16,6 +16,8 @@ export default function Home() {
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 
+  const excluded = ["spotify", "another-project"];
+
   return (
     <div className="flex flex-col gap-16 md:gap-24">
       <div className="flex flex-col gap-8">
@@ -68,7 +70,11 @@ export default function Home() {
         style={{ "--index": 4 } as React.CSSProperties}
       >
         <p className="tracking-tight text-secondary">Pinned Projects</p>
-        <ProjectList projects={projects} />
+        <ProjectList
+          projects={projects.filter(
+            (project) => !excluded.includes(project.slug),
+          )}
+        />
       </div>
 
       <div
