@@ -150,6 +150,6 @@ const projects = [
     category: "App",
     image: "https://static.cdnlogo.com/logos/c/27/c.svg",
     description: "A digital registry supporting CRUD operations made in C#.",
-    link: null,
+    link: "/projects/personnel-register",
   },
 ];
