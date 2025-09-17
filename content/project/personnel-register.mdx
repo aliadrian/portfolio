@@ -20,92 +20,29 @@ import LightboxImage from "../../app/components/bento/LightboxImage";
 
 ## Introduction
 
-This case study documents a C# personnel simulation that manages large populations of two species (ants and bees) with distinct lifespans. The design uses **generic Factory Method** to decouple construction, a **generic JSON repository** for persistence, and a **service layer** to orchestrate weekly lifecycle updates (removals and births). The architecture avoids a conventional RDBMS while remaining extensible and maintainable.
+This project was developed as part of a course assignment with the explicit requirement to apply the **Abstract Factory Pattern** in a non-trivial scenario.  
+The chosen theme — a **simulation of ants and bees** — may seem playful, but it is actually a stand‑in for a much more serious use case: designing a **scalable, extensible personnel register** such as a company might use to manage thousands of employees.
+
+The architectural focus was to:
+
+- Apply **Abstract Factory** to decouple construction.
+- Use a **Service Layer** to manage lifecycles.
+- Implement a **generic JSON Repository** for persistence instead of a full database.
+
+The outcome is a system that demonstrates how to handle large populations with clear separation of concerns. In practice, the same architecture could manage employees in an enterprise system (with lifespans replaced by contract lengths, shifts, or employment periods).
 
 ---
 
-## System Overview
+## Why Abstract Factory?
 
-- **Factory Method (generic):** `IPersonalFactory<T>` defines a single `Create(DateTime)` method. Concrete factories (`AntFactory`, `BeeFactory`) encapsulate species-specific construction by delegating to each type’s creation logic (e.g., `CreateWithRandomBirthDate`).
-- **Service Layer:** `PersonalService` coordinates weekly operations across species without knowing construction details or storage specifics.
-- **Generic Repository (JSON):** `JsonPersonalRepository<T>` provides CRUD and lifecycle helpers, persisting state to JSON files. The repository expects each entity to expose an `Id` and supports composable operations via delegates.
-- **Lifecycle Model:** Species define their own `IsAlive(DateTime)` logic (ants ~14 days, bees ~21 days). Weekly ticks remove those beyond lifespan, then spawn slightly more than died to maintain growth.
+The Abstract Factory Pattern was central to the project’s design.  
+In the simulation it governs how ants and bees are created, but the principle applies broadly:
 
----
-
-## Visual Overview
-
-<div className="mt-0 grid overflow-clip rounded-lg md:grid-cols-2">
-  <div>
-    <LightboxImage
-      src="/projects/personnel-register/console-simulation.png"
-      alt="Visualization of program run in Rider."
-      caption="Program run in Rider."
-      className="mx-auto mb-0 w-full max-w-2xl cursor-pointer"
-      fullClassName="max-h-[90vh] max-w-[90vw]"
-    />
-  </div>
-  <div>
-    <LightboxImage
-      src="/projects/personnel-register/simulationandjson.png"
-      alt="Program run in Rider with the generated ants.json and bees.json files"
-      caption="Program run in Rider with the generated ants.json and bees.json files"
-      className="mx-auto mb-0 w-full max-w-2xl cursor-pointer"
-      fullClassName="max-h-[90vh] max-w-[90vw]"
-    />
-  </div>
-</div>
-<p className="mt-3 text-center text-sm text-gray-500">
-  Click any image to view it in full size.
-</p>
+- **Encapsulation of construction**: The service layer never knows the details of how an entity is built.
+- **Extensibility**: Adding a new type of personnel (e.g., a new insect in the demo, or a new role in a company) only requires a new class and factory.
+- **Consistency**: All entities are created through the same interface, but internal details differ (e.g., random birthdate in the demo vs. hire date in a real system).
 
 ---
-
-## Architecture Diagram (Mermaid)
-
-```mermaid
-classDiagram
-    direction TB
-
-    IPersonalFactory~T~ <|.. AntFactory
-    IPersonalFactory~T~ <|.. BeeFactory
-
-    PersonalService --> IPersonalFactory~Ant~ : uses
-    PersonalService --> IPersonalFactory~Bee~ : uses
-    PersonalService --> JsonPersonalRepository~Ant~ : persists via
-    PersonalService --> JsonPersonalRepository~Bee~ : persists via
-
-    class IPersonalFactory~T~ {
-      +Create(DateTime currentDate) T
-    }
-
-    class AntFactory {
-      +Create(DateTime currentDate) Ant
-    }
-
-    class BeeFactory {
-      +Create(DateTime currentDate) Bee
-    }
-
-    class JsonPersonalRepository~T~ {
-      +AddAsync(T)
-      +UpdateAsync(T)
-      +DeleteAsync(id)
-      +GetById(id) T
-      +GetAll() Dictionary~string,T~
-      +SaveToFileAsync()
-      +RemoveDeadPersonalAsync(isAlive)
-      +AddNewPersonalAsync(createNew, count)
-    }
-
-    class PersonalService {
-      +HandleWeeklyOperations(currentDate, weekNumber)
-    }
-```
-
----
-
-## Key Code Snippets
 
 ### Generic Factory Contract
 
@@ -119,56 +56,34 @@ namespace PersonalRegister
 }
 ```
 
-### Concrete Factories
+### Example: Ant Factory (demo entity)
 
 ```csharp showLineNumbers
-using PersonalRegister;
-
 namespace PJU
 {
     public class AntFactory : IPersonalFactory<Ant>
     {
         public Ant Create(DateTime currentDate)
         {
-            // Species-specific construction: random past birth date
             return Ant.CreateWithRandomBirthDate(currentDate);
         }
     }
 }
 ```
 
-```csharp showLineNumbers
-using PersonalRegister;
+_In a real-world system, this might instead be an `EmployeeFactory` creating staff with a given hire date._
 
-namespace PersonalRegister
-{
-    public class BeeFactory : IPersonalFactory<Bee>
-    {
-        public Bee Create(DateTime currentDate)
-        {
-            return Bee.CreateWithRandomBirthDate(currentDate);
-        }
-    }
-}
-```
+---
 
-### Repository Contract
+## Lifecycle Orchestration
 
-```csharp showLineNumbers
-namespace PJU
-{
-    public interface IRepository<T>
-    {
-        Task AddAsync(T item);
-        Task UpdateAsync(T item);
-        Task DeleteAsync(string id);
-        T GetById(string id);
-        Dictionary<string, T> GetAll();
-    }
-}
-```
+In the demo, ants live 14 days and bees live 21 days. The service removes expired entities and births slightly more than those lost, ensuring growth.
 
-### Weekly Lifecycle Orchestration (excerpt)
+In a company system, this same pattern could model:
+
+- Contract expiration and renewal.
+- Employee attrition and hiring.
+- Rotational workforce planning.
 
 ```csharp showLineNumbers
 public async Task HandleWeeklyOperations(DateTime currentDate, int weekNumber)
@@ -177,22 +92,16 @@ public async Task HandleWeeklyOperations(DateTime currentDate, int weekNumber)
     var beeFactory = new BeeFactory();
 
     int deadAnts = await _antRepository.RemoveDeadPersonalAsync(a => ((Ant)a).IsAlive(currentDate));
-    Console.WriteLine($"{deadAnts} ants died.");
     int antsToBeBorn = (int)(deadAnts * 1.1); // +10%
+
     if (antsToBeBorn > 0)
-    {
         await _antRepository.AddNewPersonalAsync(() => antFactory.Create(currentDate), antsToBeBorn);
-        Console.WriteLine($"{antsToBeBorn} new ants were born.");
-    }
 
     int deadBees = await _beeRepository.RemoveDeadPersonalAsync(b => ((Bee)b).IsAlive(currentDate));
-    Console.WriteLine($"{deadBees} bees died.");
     int beesToBeBorn = (int)(deadBees * 1.2); // +20%
+
     if (beesToBeBorn > 0)
-    {
         await _beeRepository.AddNewPersonalAsync(() => beeFactory.Create(currentDate), beesToBeBorn);
-        Console.WriteLine($"{beesToBeBorn} new bees were born.");
-    }
 
     await SaveSimulationStateAsync(currentDate, weekNumber);
     await _antRepository.SaveToFileAsync();
@@ -202,16 +111,146 @@ public async Task HandleWeeklyOperations(DateTime currentDate, int weekNumber)
 
 ---
 
+## Simulation Output (Console)
+
+```text {31-32}
+Continuing simulation from Week 8:
+
+Week 9:
+201673 ants died.
+221840 new ants were born.
+0 bees died.
+Total living ants after week 9: 819648
+Total living bees after week 9: 84802
+
+Week 10:
+545426 ants died.
+599968 new ants were born.
+40438 bees died.
+48525 new bees were born.
+Total living ants after week 10: 874190
+Total living bees after week 10: 92889
+
+Week 11:
+673877 ants died.
+741264 new ants were born.
+45085 bees died.
+54102 new bees were born.
+Total living ants after week 11: 941577
+Total living bees after week 11: 101906
+
+Week 12:
+694896 ants died.
+764385 new ants were born.
+49904 bees died.
+59884 new bees were born.
+Total living ants after week 12: 1011066
+Total living bees after week 12: 111886
+
+Simulation complete.
+Process finished with exit code 0.
+```
+
+_Interpretation:_ each weekly tick removes entities past their lifespan (ants ~14 days, bees ~21 days) and births slightly more than those lost (+10% ants, +20% bees). Totals show population growth across weeks.
+
+---
+
+## Persisted State (JSON snapshots)
+
+### ants.json
+
+```json
+{
+  "f537630ff03de4f3d92ffd2392306a5a1": {
+    "Id": "f537630ff03de4f3d92ffd2392306a5a1",
+    "BirthDate": "2025-10-17",
+    "HasSafetyShoes": true
+  },
+  "847a3d99f1e494eaf3959d927cce13f": {
+    "Id": "847a3d99f1e494eaf3959d927cce13f",
+    "BirthDate": "2025-10-08",
+    "HasSafetyShoes": true
+  },
+  "d6dc18b6cd324dd29117ed27e4e49026": {
+    "Id": "d6dc18b6cd324dd29117ed27e4e49026",
+    "BirthDate": "2025-10-18",
+    "HasSafetyShoes": true
+  }
+}
+```
+
+### bees.json
+
+```json
+{
+  "de28bf373d1a49d9b0f01732fb090fbd": {
+    "Id": "de28bf373d1a49d9b0f01732fb090fbd",
+    "BirthDate": "2025-10-16"
+  },
+  "d4a8b1cdaf504359b260eb97e2ca2ebe": {
+    "Id": "d4a8b1cdaf504359b260eb97e2ca2ebe",
+    "BirthDate": "2025-10-18"
+  },
+  "3330a12159c41512bd4qabfdc557af2f": {
+    "Id": "3330a12159c41512bd4qabfdc557af2f",
+    "BirthDate": "2025-10-22"
+  }
+}
+```
+
+_Note:_ Ants include a `HasSafetyShoes` flag to reflect domain-specific constraints.
+
+---
+
+## JSON Repository
+
+The repository abstracts persistence. In the demo it writes JSON, but in a company setting this could connect to a database or external HR system.
+
+```csharp showLineNumbers
+public class JsonPersonalRepository<T> : IRepository<T> where T : class
+{
+    private readonly Dictionary<string, T> _entities = new();
+
+    public async Task<int> RemoveDeadPersonalAsync(Func<T, bool> isAlive)
+    {
+        int start = _entities.Count;
+        var dead = _entities.Where(e => !isAlive(e.Value)).Select(e => e.Key).ToList();
+        foreach (var id in dead) _entities.Remove(id);
+        await Task.CompletedTask;
+        return start - _entities.Count;
+    }
+
+    public async Task AddNewPersonalAsync(Func<T> createNew, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            var entity = (dynamic)createNew();
+            _entities[entity.Id] = entity;
+        }
+        await Task.CompletedTask;
+    }
+}
+```
+
+---
+
 ## Process Walkthrough
 
-1. **Load**: Repositories reconstruct in-memory dictionaries from JSON files at startup.
-2. **Evaluate**: On each weekly tick, `IsAlive(currentDate)` is applied per species. Those beyond lifespan are removed.
-3. **Repopulate**: Factories create new entities based on the number that died and species-specific growth factors.
-4. **Persist**: Repositories serialize the updated state and a separate simulation state file records the week/date.
-5. **Extend**: Adding a new species involves implementing the species model, its factory, and wiring a repository; the service logic remains unchanged.
+1. **Load state** from JSON at startup (in production, could be a database).
+2. **Evaluate lifespan/contract** with `IsAlive` rules.
+3. **Remove expired personnel** (demo = dead ants/bees, real = contract ended).
+4. **Repopulate workforce** via factories.
+5. **Save state** to storage and update simulation metadata.
 
 ---
 
 ## Conclusion
 
-The combination of generic Factory Method, a reusable repository abstraction, and a thin orchestration service cleanly separates concerns. Construction varies by species but remains encapsulated; persistence is independent from business rules; and lifecycle logic applies uniformly across types. This keeps the codebase small, extensible, and transparent while supporting large-scale simulations.
+While the demo revolves around ants and bees, the architecture was deliberately designed to resemble a **real personnel register**.
+
+- The **Abstract Factory Pattern** ensures clean extensibility of personnel types.
+- The **Service Layer** centralizes business rules.
+- The **Repository** abstracts persistence for flexibility.
+
+This mirrors the same principles a company system would use to manage thousands of employees.  
+The exercise demonstrates not only technical correctness but also how to translate design patterns into **enterprise‑ready architecture**.
